@@ -2,6 +2,7 @@ import numpy as np
 import matplotlib.pyplot as plt
 import Applied_Data_Science_Viz_Proj_01 as parent_module
 
+#Reading variables from Applied_Data_Science_Viz_Proj_01 python file
 us_data = parent_module.us_data
 fr_data = parent_module.fr_data
 jp_data = parent_module.jp_data
@@ -40,10 +41,10 @@ plt.plot(plot_fr_counts, label="France", linestyle="dotted")
 plt.plot(plot_jp_counts, label="Japan", linestyle="dotted")
 plt.plot(plot_es_counts, label="Spain", ls="--")
 
-plt.legend(bbox_to_anchor=(1, 1))
+plt.legend(loc="upper left")
 plt.title("Number of films produced in four countries between 2000 and 2020")
 plt.xlabel("Year")
 plt.ylabel("Number of films")
-plt.xticks(np.arange(2000, 2021, 1))
+plt.xticks(np.arange(2000, 2021, 2))
 plt.yticks(np.arange(0, 15, 2))
 plt.show()
