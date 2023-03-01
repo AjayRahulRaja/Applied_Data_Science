@@ -35,10 +35,10 @@ plot_es_counts=plot_es_counts.sort_index()
 #Plot: Line Plot
 plt.figure(figsize=(16, 6))
 
-plt.plot(plot_gb_counts, label="Great Britain", linestyle="dotted")
-plt.plot(plot_fr_counts, label="France")
-plt.plot(plot_jp_counts, label="Japan")
-plt.plot(plot_es_counts, label="Spain")
+plt.plot(plot_gb_counts, label="Great Britain")
+plt.plot(plot_fr_counts, label="France", linestyle="dotted")
+plt.plot(plot_jp_counts, label="Japan", linestyle="dotted")
+plt.plot(plot_es_counts, label="Spain", ls="--")
 
 plt.legend(bbox_to_anchor=(1, 1))
 plt.title("Number of films produced in four countries between 2000 and 2020")
