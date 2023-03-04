@@ -1,3 +1,3 @@
 # Applied_Data_Science
 
-Repository using for Applied Data Science Module
+Repository using for Applied Data Science Module.
