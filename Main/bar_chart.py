@@ -3,7 +3,10 @@ import Applied_Data_Science_Viz_Proj_01 as parent_module
 
 #Analysing United States' Data
 #Reading variables from Applied_Data_Science_Viz_Proj_01 python file
+#Reading United States' data
 us_data = parent_module.us_data
+
+#Reading United States' data between 1950 and 1990
 us_data_1950_to_1990 = parent_module.us_data_1950_to_1990
 us_data_1990_to_2020 = parent_module.us_data_1990_to_2020
 

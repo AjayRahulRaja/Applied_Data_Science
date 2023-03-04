@@ -3,6 +3,7 @@ import matplotlib.pyplot as plt
 import Applied_Data_Science_Viz_Proj_01 as parent_module
 
 #Reading variables from Applied_Data_Science_Viz_Proj_01 python file
+#Reading five countries' data
 us_data = parent_module.us_data
 fr_data = parent_module.fr_data
 jp_data = parent_module.jp_data
@@ -39,6 +40,6 @@ total = sum(number_of_movies_pers_countries_int)
 plt.style.use('ggplot')
 plt.figure(figsize=(7, 7))
 plt.pie(number_of_movies_per_countries, autopct="%1.1f%%", labels=country_names_list, shadow=True, startangle=90)
-plt.title("Number of films available on HBO Max which are produced in five countries from 1901 to 2020", size=14, y=1.015)
+plt.title("Films available on HBO Max which are produced in five countries from 1901 to 2020", size=14, y=1.015)
 plt.legend(bbox_to_anchor=(1.25, 1))
 plt.show()
