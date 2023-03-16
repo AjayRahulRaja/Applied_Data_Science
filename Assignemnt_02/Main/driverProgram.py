@@ -6,14 +6,13 @@ removeColumns=['Country Code', 'Indicator Code']
 indexColumns=["Country Name", "Indicator Name"]
 
 def transformDf(df, removeColumns, indexColumns):
-    df.drop(removeColumns, axis=1)
+    df=df.drop(removeColumns, axis=1)
     df.set_index(indexColumns, inplace=True)
     df.sort_index(inplace=True)
     return df
 
 pd.set_option('display.max_columns', None)
 pd.set_option('display.max_rows', None)
-
 new_df=transformDf(df, removeColumns, indexColumns)
 new_df.head(2)
 
