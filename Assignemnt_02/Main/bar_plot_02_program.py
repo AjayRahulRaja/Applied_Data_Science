@@ -1,7 +1,9 @@
+#importing module and library
 import driverProgram as dp
 import pandas as pd
 import matplotlib.pyplot as plt
 
+#Calling all the selected countries' data and assigning them again it here
 France = dp.France
 India = dp.India
 Algeria = dp.Algeria
