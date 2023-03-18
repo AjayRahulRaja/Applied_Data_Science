@@ -63,3 +63,16 @@ def create_color(r, g, b):
     :return: list of RGB values
     '''
     return [r/256, g/256, b/256]
+
+def getPowerConsumption(df, column, years):
+    '''
+    This function takes the trnaspoed DataFrame and provides a table of countries and its energy consumption for particular years
+    :param df: Input transpoed DataFrame
+    :param column: Electric power consumption (kWh per capita) column
+    :param years: Following years in List 1960, 1990, 2020
+    :return: DataFrame of countries and it's energy consumption for three years
+    '''
+    d = {}
+    for x in countryList:
+        d[x] = df.loc[(years), (x, column)]
+    return d

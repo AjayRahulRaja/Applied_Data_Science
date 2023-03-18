@@ -237,6 +237,8 @@ bar_plot = pd.DataFrame([
     japan_bar_urban_population_list,
     cuba_bar_urban_population_list,
     colombia_bar_urban_population_list,
+    iraq_bar_urban_population_list,
+    algeria_bar_urban_population_list,
     australia_bar_urban_population_list], columns=["Country_Name", "1960", "1970", "1980", "1990", "2000", "2010", "2020"])
 
 bar_plot.plot(x='Country_Name',
@@ -244,7 +246,7 @@ bar_plot.plot(x='Country_Name',
               stacked=False,
               title='Urban population growth over years (annual in %)', figsize=(10, 5))
 plt.xticks(rotation=0)
-plt.ylim(0.0, 4.0, 0.5)
+plt.ylim(0.0, 6.0, 0.5)
 plt.xlabel("Country")
 plt.ylabel("population in percentage")
 plt.legend(loc='upper left')

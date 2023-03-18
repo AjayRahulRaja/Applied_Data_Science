@@ -228,6 +228,8 @@ bar_plot = pd.DataFrame([
     japan_bar_urban_population_list,
     cuba_bar_urban_population_list,
     colombia_bar_urban_population_list,
+    iraq_bar_urban_population_list,
+    algeria_bar_urban_population_list,
     australia_bar_urban_population_list],
     columns=["Country_Name", "1960", "1970", "1980", "1990", "2000", "2010", "2020"])
 

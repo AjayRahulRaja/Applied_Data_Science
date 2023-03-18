@@ -31,13 +31,7 @@ def get_custom_color_palette():
     ])
 
 cmap = get_custom_color_palette()
-sns.heatmap(corr_iraq_heat_map, cmap=cmap, center=0)
+plt.figure(figsize=(12, 8))
+sns.heatmap(corr_iraq_heat_map, cmap=cmap, center=0, annot=True, linewidths=0.05)
+plt.title("Iraq")
 plt.show()
-
-'''
-iraq_flag_colors = [(206, 17, 38), (255, 255, 255), (0, 122, 61), (0, 0, 0)]
-number_of_bins = [3]
-cmap_name = 'cmap_name'
-cm = LinearSegmentedColormap.from_list(cmap_name, iraq_flag_colors, N=3)
-sns.heatmap(cm, cmap=cmap)
-'''
