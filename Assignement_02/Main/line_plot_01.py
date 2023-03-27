@@ -13,7 +13,7 @@ Iraq_plot_param = dp.Iraq.loc[('1960', '1970', '1980', '1990', '2000', '2010'), 
 Algeria_plot_param = dp.Algeria.loc[('1960', '1970', '1980', '1990', '2000', '2010'), ('Agricultural land (% of land area)', 'Forest area (% of land area)')]
 Australia_plot_param = dp.Australia.loc[('1960', '1970', '1980', '1990', '2000', '2010'), ('Agricultural land (% of land area)', 'Forest area (% of land area)')]
 
-
+#plotting line plot
 plt.figure(figsize=(8, 6))
 plt.plot(France_plot_param.index, France_plot_param['Agricultural land (% of land area)'], label='France', ls='--')
 plt.plot(United_kingdom_plot_param.index, United_kingdom_plot_param['Agricultural land (% of land area)'], label='United Kingdom', ls='--')

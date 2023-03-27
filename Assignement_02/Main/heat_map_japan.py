@@ -18,17 +18,20 @@ Japan_heat_map_parameters = Japan.loc[
          ,'CO2 emissions (kt)' \
          ,'CO2 emissions from gaseous fuel consumption (% of total)' \
          ,'CO2 emissions from solid fuel consumption (% of total)' \
-         ,'CO2 emissions from liquid fuel consumption (% of total)' )]
-
+         ,'CO2 emissions from liquid fuel consumption (% of total)'
+     )]
+#calculating corr relation
 corr_Japan_heat_map = Japan_heat_map_parameters.corr()
 
+#getting Japan's flag color for heat map custom color
 def get_custom_color_palette():
     return LinearSegmentedColormap.from_list("", [
         dp.create_color(255, 255, 255),
         dp.create_color (188, 0, 45)
     ])
-
 cmap = get_custom_color_palette()
+
+#plotting heat map
 plt.figure(figsize=(12, 8))
 sns.heatmap(corr_Japan_heat_map, cmap=cmap, center=0, annot=True, linewidths=0.05)
 plt.title("Japan")

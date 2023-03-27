@@ -20,8 +20,10 @@ Iraq_heat_map_parameters = Iraq.loc[
     ,'CO2 emissions from solid fuel consumption (% of total)' \
     ,'CO2 emissions from liquid fuel consumption (% of total)' )]
 
+#calculating corr relation
 corr_iraq_heat_map = Iraq_heat_map_parameters.corr()
 
+#getting Iraq's flag color for heat map custom color
 def get_custom_color_palette():
     return LinearSegmentedColormap.from_list("", [
         dp.create_color(206, 17, 38),
@@ -29,8 +31,10 @@ def get_custom_color_palette():
         dp.create_color (0, 122, 61),
         dp.create_color(0, 0, 0)
     ])
-
+#calculating corr relation
 cmap = get_custom_color_palette()
+
+#plotting heat map
 plt.figure(figsize=(12, 8))
 sns.heatmap(corr_iraq_heat_map, cmap=cmap, center=0, annot=True, linewidths=0.05)
 plt.title("Iraq")
