@@ -6,7 +6,7 @@ from matplotlib.colors import LinearSegmentedColormap
 
 #Calling Iraq's data from the driverProgram
 Iraq = dp.Iraq
-
+#Filtering and saving Iraq's different years and different parameter.
 Iraq_heat_map_parameters = Iraq.loc[
     ('1960', '1970', '1980', '1990', '2000', '2010', '2020'), \
     ('Population growth (annual %)' \
@@ -19,10 +19,8 @@ Iraq_heat_map_parameters = Iraq.loc[
     ,'CO2 emissions from gaseous fuel consumption (% of total)' \
     ,'CO2 emissions from solid fuel consumption (% of total)' \
     ,'CO2 emissions from liquid fuel consumption (% of total)' )]
-
-#calculating corr relation
+#calculating Iraq's correlation
 corr_iraq_heat_map = Iraq_heat_map_parameters.corr()
-
 #getting Iraq's flag color for heat map custom color
 def get_custom_color_palette():
     return LinearSegmentedColormap.from_list("", [
@@ -33,9 +31,15 @@ def get_custom_color_palette():
     ])
 #calculating corr relation
 cmap = get_custom_color_palette()
-
 #plotting heat map
-plt.figure(figsize=(12, 8))
-sns.heatmap(corr_iraq_heat_map, cmap=cmap, center=0, annot=True, linewidths=0.05)
+plt.figure(figsize=(8, 6))
+sns.heatmap(corr_iraq_heat_map, cmap=cmap, annot=True, linewidths=0.5, annot_kws={'size': 10})
 plt.title("Iraq")
+plt.savefig('C:/Users/Lenovo/Desktop/UK/Hertfordshire/SEM 01/Applied Data Science/viz proj 02/plots/New folder/irq_heat_map_dpi.png',
+            dpi=400,
+            bbox_inches ="tight",
+            pad_inches = 1,
+            transparent = False,
+            orientation ='landscape')
+plt.tick_params(axis='both', which='major', labelsize=10)
 plt.show()

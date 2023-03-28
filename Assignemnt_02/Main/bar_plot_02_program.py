@@ -1,7 +1,7 @@
 #importing module and library
 import driverProgram as dp
-import pandas as pd
 import matplotlib.pyplot as plt
+import pandas as pd
 
 #Calling all the selected countries' data and assigning them again it here
 France = dp.France
@@ -13,9 +13,7 @@ Cuba = dp.Cuba
 United_Kingdom = dp.United_Kingdom
 Iraq = dp.Iraq
 Japan = dp.Japan
-
-'Urban population growth (annual %)'
-
+#Collecting France's Data
 France_1960 = France.loc['1960']
 France_1970 = France.loc['1970']
 France_1980 = France.loc['1980']
@@ -30,7 +28,7 @@ France_bar_urban_population_list=["France",France_1960['Urban population growth 
                                   France_2000['Urban population growth (annual %)'], \
                                   France_2010['Urban population growth (annual %)'], \
                                   France_2020['Urban population growth (annual %)']]
-
+#Collecting United Kingdom's Data
 uk_1960 = United_Kingdom.loc['1960']
 uk_1970 = United_Kingdom.loc['1970']
 uk_1980 = United_Kingdom.loc['1980']
@@ -45,7 +43,7 @@ uk_bar_urban_population_list=["United Kingdom",uk_1960['Urban population growth 
                               uk_2000['Urban population growth (annual %)'], \
                               uk_2010['Urban population growth (annual %)'], \
                               uk_2020['Urban population growth (annual %)']]
-
+#Collecting India's Data
 india_1960 = India.loc['1960']
 india_1970 = India.loc['1970']
 india_1980 = India.loc['1980']
@@ -60,7 +58,7 @@ india_bar_urban_population_list=["India",india_1960['Urban population growth (an
                                  india_2000['Urban population growth (annual %)'], \
                                  india_2010['Urban population growth (annual %)'], \
                                  india_2020['Urban population growth (annual %)']]
-
+#Collecting Japan's Data
 japan_1960 = Japan.loc['1960']
 japan_1970 = Japan.loc['1970']
 japan_1980 = Japan.loc['1980']
@@ -75,7 +73,7 @@ japan_bar_urban_population_list=["Japan",japan_1960['Urban population growth (an
                                  japan_2000['Urban population growth (annual %)'], \
                                  japan_2010['Urban population growth (annual %)'], \
                                  japan_2020['Urban population growth (annual %)']]
-
+#Collecting Cuba's Data
 cuba_1960 = Cuba.loc['1960']
 cuba_1970 = Cuba.loc['1970']
 cuba_1980 = Cuba.loc['1980']
@@ -90,7 +88,7 @@ cuba_bar_urban_population_list=["Cuba",cuba_1960['Urban population growth (annua
                                 cuba_2000['Urban population growth (annual %)'], \
                                 cuba_2010['Urban population growth (annual %)'], \
                                 cuba_2020['Urban population growth (annual %)']]
-
+#Collecting Colombia's Data
 colombia_1960 = Colombia.loc['1960']
 colombia_1970 = Colombia.loc['1970']
 colombia_1980 = Colombia.loc['1980']
@@ -105,7 +103,7 @@ colombia_bar_urban_population_list=["Colombia",colombia_1960['Urban population g
                                     colombia_2000['Urban population growth (annual %)'], \
                                     colombia_2010['Urban population growth (annual %)'], \
                                     colombia_2020['Urban population growth (annual %)']]
-
+#Collecting Iraq's Data
 iraq_1960 = Iraq.loc['1960']
 iraq_1970 = Iraq.loc['1970']
 iraq_1980 = Iraq.loc['1980']
@@ -120,7 +118,7 @@ iraq_bar_urban_population_list=["Iraq", iraq_1960['Urban population growth (annu
                                 iraq_2000['Urban population growth (annual %)'], \
                                 iraq_2010['Urban population growth (annual %)'], \
                                 iraq_2020['Urban population growth (annual %)']]
-
+#Collecting Algeria's Data
 algeria_1960 = Algeria.loc['1960']
 algeria_1970 = Algeria.loc['1970']
 algeria_1980 = Algeria.loc['1980']
@@ -135,7 +133,7 @@ algeria_bar_urban_population_list=["Algeria",algeria_1960['Urban population grow
                                    algeria_2000['Urban population growth (annual %)'], \
                                    algeria_2010['Urban population growth (annual %)'], \
                                    algeria_2020['Urban population growth (annual %)']]
-
+#Collecting Australia's Data
 australia_1960 = Australia.loc['1960']
 australia_1970 = Australia.loc['1970']
 australia_1980 = Australia.loc['1980']
@@ -150,7 +148,7 @@ australia_bar_urban_population_list=["Australia", australia_1960['Urban populati
                                      australia_2000['Urban population growth (annual %)'], \
                                      australia_2010['Urban population growth (annual %)'], \
                                      australia_2020['Urban population growth (annual %)']]
-
+#Saving all the essential parameters to plot a bar graph
 bar_plot = pd.DataFrame([
     France_bar_urban_population_list,
     uk_bar_urban_population_list,
@@ -160,8 +158,8 @@ bar_plot = pd.DataFrame([
     colombia_bar_urban_population_list,
     iraq_bar_urban_population_list,
     algeria_bar_urban_population_list,
-    australia_bar_urban_population_list], columns=["Country_Name", "1960", "1970", "1980", "1990", "2000", "2010", "2020"])
-
+    australia_bar_urban_population_list],
+    columns=["Country_Name", "1960", "1970", "1980", "1990", "2000", "2010", "2020"])
 #plotting bar graph
 bar_plot.plot(x='Country_Name',
               kind='bar',
@@ -172,4 +170,11 @@ plt.ylim(0.0, 6.0, 0.5)
 plt.xlabel("Country")
 plt.ylabel("population in percentage")
 plt.legend(loc='upper left')
+plt.savefig('C:/Users/Lenovo/Desktop/UK/Hertfordshire/SEM 01/Applied Data Science/viz proj 02/plots/New folder/bar_02.png',
+            dpi=400,
+            bbox_inches ="tight",
+            pad_inches = 1,
+            transparent = False,
+            orientation ='landscape')
+plt.tick_params(axis='both', which='major', labelsize=10)
 plt.show()

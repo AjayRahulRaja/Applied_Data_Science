@@ -24,7 +24,6 @@ plt.plot(Colombia_plot_param.index, Colombia_plot_param['Agricultural land (% of
 plt.plot(Iraq_plot_param.index, Iraq_plot_param['Agricultural land (% of land area)'], label='Iraq', ls='--')
 plt.plot(Algeria_plot_param.index, Algeria_plot_param['Agricultural land (% of land area)'], label='Algeria', ls='--')
 plt.plot(Australia_plot_param.index, Australia_plot_param['Agricultural land (% of land area)'], label='Australia', ls='--')
-
 plt.xlabel('Years')
 plt.ylabel('% of land area')
 plt.title('Agricultural Land (% of land area) over decades')

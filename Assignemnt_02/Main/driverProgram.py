@@ -1,10 +1,11 @@
-import pandas as pd
 from matplotlib.colors import LinearSegmentedColormap
+import pandas as pd
+import stats
+import matplotlib.pyplot as plt
 
 #Reading Source Data
 df = pd.read_excel("C://Users/Lenovo/Desktop/UK/Hertfordshire/SEM 01/Applied Data Science/viz proj 02/API_19_DS2_en_excel_v2_4903056.xls", header=3)
 df.describe()
-
 #Redundant Columns to be removed
 removeColumns=['Country Code', 'Indicator Code']
 indexColumns=["Country Name", "Indicator Name"]
@@ -23,7 +24,6 @@ def transformDf(df, removeColumns, indexColumns):
     return df
 new_df = transformDf(df, removeColumns, indexColumns)
 new_df.describe()
-
 def transformDf2(df):
     '''
     This Function takes the cleaned DataFrame and will Transpose it. Also All NaN values will be filled with 0s.
@@ -35,7 +35,6 @@ def transformDf2(df):
     return df
 new_df1=transformDf2(new_df)
 new_df1.describe()
-
 countryList=['France', 'United Kingdom', 'India', 'Japan', 'Cuba', 'Colombia', 'Iraq', 'Algeria', 'Australia']
 def fillterCountries(df):
     '''
@@ -47,7 +46,6 @@ def fillterCountries(df):
     for x in countryList:
         d[x] = df.loc[:, x]
     return d
-
 #saving the filtered data
 x=fillterCountries(new_df1)
 #assinging each countries' data to its variable
@@ -60,7 +58,6 @@ France, United_Kingdom, India, Japan, Cuba, Colombia, Iraq, Algeria, Australia =
                                                                                  x['Iraq'], \
                                                                                  x['Algeria'], \
                                                                                  x['Australia']
-
 def create_color(r, g, b):
     '''
     This function takes three parameters in order to get the RGB value of a country's flag.
@@ -70,7 +67,6 @@ def create_color(r, g, b):
     :return: list of RGB values
     '''
     return [r/256, g/256, b/256]
-
 def getPowerConsumption(df, column, years):
     '''
     This function takes the transposed DataFrame and provides a table of country names and its energy consumption for a few years
@@ -83,4 +79,18 @@ def getPowerConsumption(df, column, years):
     for x in countryList:
         d[x] = df.loc[(years), (x, column)]
     return d
-
+#Finding the skewness for France's indicators
+France_skew = stats.skew(France)
+pd.set_option('display.max_columns', None)
+pd.set_option('display.max_rows', None)
+print(France_skew)
+#Finding the skewness for Iraq's indicators
+Iraq_skew = stats.skew(Iraq)
+pd.set_option('display.max_columns', None)
+pd.set_option('display.max_rows', None)
+print(Iraq_skew)
+#Finding the skewness for Japan's indicators
+Japan_skew = stats.skew(Japan)
+pd.set_option('display.max_columns', None)
+pd.set_option('display.max_rows', None)
+print(Japan_skew)
