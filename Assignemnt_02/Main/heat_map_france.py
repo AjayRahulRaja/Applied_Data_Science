@@ -1,3 +1,9 @@
+"""
+Module to create a heat plot
+
+@author: ajay rahul
+"""
+
 #importing module and library
 import driverProgram as dp
 import matplotlib.pyplot as plt
