@@ -4,6 +4,7 @@ Module to create a heat plot
 @author: ajay rahul
 """
 
+'''
 #importing module and library
 import driverProgram as dp
 import seaborn as sns
@@ -36,7 +37,7 @@ def get_custom_color_palette():
     ])
 cmap = get_custom_color_palette()
 #plotting heat map
-plt.figure(figsize=(12, 8))
+plt.figure(figsize=(8, 6))
 sns.heatmap(corr_Japan_heat_map, cmap=cmap, center=0, annot=True, linewidths=0.5, annot_kws={'size': 10})
 plt.title("Japan")
 plt.savefig('C:/Users/Lenovo/Desktop/UK/Hertfordshire/SEM 01/Applied Data Science/viz proj 02/plots/New folder/jpn_heat_map_dpi.png',
@@ -47,3 +48,4 @@ plt.savefig('C:/Users/Lenovo/Desktop/UK/Hertfordshire/SEM 01/Applied Data Scienc
             orientation ='landscape')
 plt.tick_params(axis='both', which='major', labelsize=10)
 plt.show()
+'''

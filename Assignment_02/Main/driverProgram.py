@@ -14,6 +14,7 @@ Also calculates the normalised skewness
     Generating DataFrame for energy consumptions
 """
 #importing module and library
+
 import pandas as pd
 import stats
 
@@ -125,3 +126,12 @@ all_skew = all_skew.rename(columns = {'Renewable energy consumption (% of total 
                            )
 all_skew=all_skew.T
 print(all_skew)
+
+#Output of Skewness for France, Iraq, and Japan
+#                                 France    Iraq      Japan
+# Indicator Name
+# Renewable energy consumption    0.346325  0.570013  0.663760
+# Total greenhouse gas emissions -0.324172 -0.119706 -0.182678
+# Other greenhouse gas emissions  0.071156 -0.326243 -0.174798
+# Methane emissions              -0.266908 -0.214166  0.236731
+
