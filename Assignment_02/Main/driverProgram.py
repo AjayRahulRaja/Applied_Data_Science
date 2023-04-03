@@ -14,7 +14,6 @@ Also calculates the normalised skewness
     Generating DataFrame for energy consumptions
 """
 #importing module and library
-
 import pandas as pd
 import stats
 
@@ -117,7 +116,7 @@ Japan_skew = Japan_skew.rename(columns = {0:"Japan"})
 Japan_skew = Japan_skew.T
 #Combaining France, Iraq, Japan's skew into a dataframe
 all_skew = pd.concat([France_skew, Iraq_skew, Japan_skew])
-
+#Renaming column names
 all_skew = all_skew.rename(columns = {'Renewable energy consumption (% of total final energy consumption)':"Renewable energy consumption",
                                       'Total greenhouse gas emissions (% change from 1990)':'Total greenhouse gas emissions',
                                       'Other greenhouse gas emissions, HFC, PFC and SF6 (thousand metric tons of CO2 equivalent)':'Other greenhouse gas emissions',
