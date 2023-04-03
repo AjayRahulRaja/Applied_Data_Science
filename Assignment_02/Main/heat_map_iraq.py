@@ -12,6 +12,7 @@ from matplotlib.colors import LinearSegmentedColormap
 
 #Calling Iraq's data from the driverProgram
 Iraq = dp.Iraq
+Iraq.describe()
 #Filtering and saving Iraq's different years and different parameter.
 Iraq_heat_map_parameters = Iraq.loc[
     ('1960', '1970', '1980', '1990', '2000', '2010', '2020'), \

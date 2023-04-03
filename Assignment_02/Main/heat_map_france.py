@@ -14,6 +14,7 @@ import seaborn as sns
 
 #Calling France's data from the driverProgram
 France = dp.France
+France.describe()
 #Filtering and saving France's different years and different parameter.
 France_heat_map_parameters = France.loc[
      ('1960', '1970', '1980', '1990', '2000', '2010', '2020'),
