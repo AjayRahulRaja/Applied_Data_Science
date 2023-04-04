@@ -28,6 +28,7 @@ Iraq_heat_map_parameters = Iraq.loc[
     ,'CO2 emissions from liquid fuel consumption (% of total)' )]
 #calculating Iraq's correlation
 corr_iraq_heat_map = Iraq_heat_map_parameters.corr()
+print(corr_iraq_heat_map)
 #getting Iraq's flag color for heat map custom color
 def get_custom_color_palette():
     return LinearSegmentedColormap.from_list("", [

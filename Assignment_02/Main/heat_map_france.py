@@ -30,6 +30,7 @@ France_heat_map_parameters = France.loc[
       'CO2 emissions from liquid fuel consumption (% of total)')]
 #calculating correlation for France
 corr_france_heat_map = France_heat_map_parameters.corr()
+print(corr_france_heat_map)
 #getting France flag color for heat map custom color
 def get_custom_color_palette():
      return LinearSegmentedColormap.from_list("", [
