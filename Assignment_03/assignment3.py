@@ -7,7 +7,6 @@
 import pandas as pd
 import stats
 import matplotlib.pyplot as plt
-import pandas as pd
 import stats
 import cluster_tools as ct
 
@@ -161,9 +160,7 @@ print(all_skew)
 
 France.describe()
 #Filtering and saving France's different years and different parameter.
-France_heat_map_parameters = France.loc[
-     ('1960', '1970', '1980', '1990', '2000', '2010', '2020'),
-     ('Population growth (annual %)',
+heat_map_parameters = ['Population growth (annual %)',
       'Agricultural land (% of land area)',
       'Arable land (% of land area)',
       'Forest area (% of land area)',
@@ -172,16 +169,20 @@ France_heat_map_parameters = France.loc[
       'CO2 emissions (kt)',
       'CO2 emissions from gaseous fuel consumption (% of total)',
       'CO2 emissions from solid fuel consumption (% of total)',
-      'CO2 emissions from liquid fuel consumption (% of total)')]
+      'CO2 emissions from liquid fuel consumption (% of total)']
+
+Fr_df = France.loc[:, France.columns.isin(heat_map_parameters)]
+Fr_df.fillna(0, inplace=True)
+
 #calculating correlation for France
-corr_france_heat_map = France_heat_map_parameters.corr()
+corr_france_heat_map = Fr_df.corr()
 print(corr_france_heat_map)
 #getting France flag color for heat map custom color
 
 #plotting heat map
 plt.figure(figsize=(8, 6))
 #sns.heatmap(corr_france_heat_map, cmap=cmap, annot=True, linewidths=0.5, annot_kws={'size': 10})
-ct.map_corr(corr_france_heat_map)
+ct.map_corr(Fr_df)
 plt.title('France')
 # plt.savefig('C:/Users/Lenovo/Desktop/UK/Hertfordshire/SEM 01/Applied Data Science/viz proj 02/plots/New folder/fra_heat_map_dpi.png',
 #             dpi=400,
@@ -192,3 +193,7 @@ plt.title('France')
 plt.tick_params(axis='both', which='major', labelsize=10)
 plt.show()
 
+plt.figure(dpi=600)
+pd.plotting.scatter_matrix(Fr_df, figsize=(9.0, 9.0))
+plt.tight_layout()    # helps to avoid overlap of labels
+plt.show()
