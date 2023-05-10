@@ -9,7 +9,8 @@ import stats
 import matplotlib.pyplot as plt
 import stats
 import cluster_tools as ct
-
+import sklearn.cluster as cluster
+import sklearn.metrics as skmet
 from matplotlib.colors import LinearSegmentedColormap
 
 
@@ -196,4 +197,53 @@ plt.show()
 plt.figure(dpi=600)
 pd.plotting.scatter_matrix(Fr_df, figsize=(9.0, 9.0))
 plt.tight_layout()    # helps to avoid overlap of labels
+plt.show()
+
+###########finding n clusters
+# extract columns for fitting. 
+fr_df_fit = Fr_df[['Population growth (annual %)', 'Cereal yield (kg per hectare)']].copy()
+
+# normalise dataframe and inspect result
+# normalisation is done only on the extract columns. .copy() prevents
+# changes in df_fit to affect df_fish. This make the plots with the 
+# original measurements
+fr_df_fit, df_min, df_max = ct.scaler(fr_df_fit)
+print(fr_df_fit.describe())
+print()
+
+print("n   score")
+# loop over trial numbers of clusters calculating the silhouette
+for ic in range(2, 7):
+    # set up kmeans and fit
+    kmeans = cluster.KMeans(n_clusters=ic)
+    kmeans.fit(fr_df_fit)     
+
+    # extract labels and calculate silhoutte score
+    labels = kmeans.labels_
+    print (ic, skmet.silhouette_score(fr_df_fit, labels))
+
+
+######display clsuters
+nc = 3
+kmeans = cluster.KMeans(n_clusters=nc)
+kmeans.fit(fr_df_fit)     
+
+# extract labels and cluster centres
+labels = kmeans.labels_
+cen = kmeans.cluster_centers_
+
+plt.figure(figsize=(6.0, 6.0), dpi=600)
+# scatter plot with colours selected using the cluster numbers
+plt.scatter(fr_df_fit["Population growth (annual %)"], fr_df_fit["Cereal yield (kg per hectare)"], c=labels, cmap="tab10")
+# colour map Accent selected to increase contrast between colours
+
+# show cluster centres
+xc = cen[:,0]
+yc = cen[:,1]
+plt.scatter(xc, yc, c="k", marker="d", s=80)
+# c = colour, s = size
+
+plt.xlabel("Population growth (annual %)")
+plt.ylabel("Cereal yield (kg per hectare)")
+plt.title("3 clusters")
 plt.show()
