@@ -121,3 +121,9 @@ plt.figure()
 ct.map_corr(hm_df)
 plt.title('Heatmap')
 plt.show()
+
+# scatter matrix
+plt.figure(dpi=600)
+pd.plotting.scatter_matrix(hm_df, figsize=(9.0, 9.0))
+plt.tight_layout()    # helps to avoid overlap of labels
+plt.show()
