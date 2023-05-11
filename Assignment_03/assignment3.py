@@ -1,15 +1,18 @@
+# -*- coding: utf-8 -*-
 """
+Created on Mon May 01 15:14:25 2023
 
 @author: ajay rahul
 """
 
+import numpy as np
 import pandas as pd
-import stats
 import matplotlib.pyplot as plt
-import stats
 import cluster_tools as ct
 import sklearn.cluster as cluster
 import sklearn.metrics as skmet
+import scipy.optimize as opt
+import errors as err
 
 
 def transformDf(df, removeColumns):
@@ -74,6 +77,16 @@ def transformDf2(df):
 
     return mod_df
 
+
+def linfunc(x, a, b):
+    """ Function for fitting
+    x: independent variable
+    a, b: parameters to be fitted
+    """
+    y = a*x + b
+    return y
+
+
 # main code
 df = pd.read_excel("API_19_DS2_en_excel_v2_4903056.xls", header=3)
 #Discovering data using .describe()
@@ -84,7 +97,7 @@ removeColumns=['Country Code', 'Indicator Code']
 
 new_df = transformDf(df, removeColumns)
 
-year = 2016
+year = 2014
 
 # fields to be filtered
 fields = ['Population, total',
@@ -92,7 +105,7 @@ fields = ['Population, total',
       'Arable land (% of land area)',
       'Forest area (sq. km)',
       'Cereal yield (kg per hectare)',
-      'CO2 emissions (kg per PPP $ of GDP)',
+      'Electricity production from oil sources (% of total)',
       'CO2 emissions (kt)',
       'CO2 emissions from gaseous fuel consumption (kt)',
       'CO2 emissions from solid fuel consumption (kt)',
@@ -103,16 +116,11 @@ mod_df = filterFieldsAndYear(new_df, fields, year)
 
 hm_df = transformDf2(mod_df)
 
-hm_df['Population, total'] = hm_df['Population, total'].astype('float64')
-hm_df['Agricultural land (sq. km)'] = hm_df['Agricultural land (sq. km)'].astype('float64')
-hm_df['Arable land (% of land area)'] = hm_df['Arable land (% of land area)'].astype('float64')
-hm_df['Forest area (sq. km)'] = hm_df['Forest area (sq. km)'].astype('float64')
-hm_df['Cereal yield (kg per hectare)'] = hm_df['Cereal yield (kg per hectare)'].astype('float64')
-hm_df['CO2 emissions (kg per PPP $ of GDP)'] = hm_df['CO2 emissions (kg per PPP $ of GDP)'].astype('float64')
-hm_df['CO2 emissions (kt)'] = hm_df['CO2 emissions (kt)'].astype('float64')
-hm_df['CO2 emissions from gaseous fuel consumption (kt)'] = hm_df['CO2 emissions from gaseous fuel consumption (kt)'].astype('float64')
-hm_df['CO2 emissions from solid fuel consumption (kt)'] = hm_df['CO2 emissions from solid fuel consumption (kt)'].astype('float64')
-hm_df['CO2 emissions from liquid fuel consumption (kt)'] = hm_df['CO2 emissions from liquid fuel consumption (kt)'].astype('float64')
+hm_df.to_csv('hm.csv')
+# type cast all fields except Country to float64
+for i in fields:
+    if i != 'Country':
+        hm_df[i] = hm_df[i].astype('float64')
 
 
 # heat map for the world data
@@ -123,15 +131,18 @@ plt.show()
 
 # scatter matrix
 plt.figure(dpi=600)
-pd.plotting.scatter_matrix(hm_df, figsize=(9.0, 9.0))
+axes = pd.plotting.scatter_matrix(hm_df)
+for ax in axes.flatten():
+    ax.xaxis.label.set_rotation(90)
+    ax.yaxis.label.set_rotation(0)
+    ax.yaxis.label.set_ha('right')
 plt.tight_layout()    # helps to avoid overlap of labels
 plt.show()
 
-
 ###########finding n clusters
 # extract columns for fitting. 
-df_fit = hm_df[['Forest area (sq. km)',
-                'CO2 emissions from liquid fuel consumption (kt)']].copy()
+df_fit = hm_df[['CO2 emissions (kt)',
+                'Cereal yield (kg per hectare)']].copy()
 
 # normalise dataframe and inspect result
 # normalisation is done only on the extract columns. .copy() prevents
@@ -154,7 +165,7 @@ for ic in range(2, 15):
 
 
 ######display clsuters
-nc = 2
+nc = 3
 kmeans = cluster.KMeans(n_clusters=nc)
 kmeans.fit(df_fit)     
 
@@ -164,8 +175,8 @@ cen = kmeans.cluster_centers_
 
 plt.figure(figsize=(6.0, 6.0), dpi=600)
 # scatter plot with colours selected using the cluster numbers
-plt.scatter(df_fit["Forest area (sq. km)"],
-            df_fit["CO2 emissions from liquid fuel consumption (kt)"],
+plt.scatter(df_fit["CO2 emissions (kt)"],
+            df_fit["Cereal yield (kg per hectare)"],
             c=labels, cmap="tab10")
 # colour map Accent selected to increase contrast between colours
 
@@ -175,7 +186,35 @@ yc = cen[:,1]
 plt.scatter(xc, yc, c="k", marker="d", s=80)
 # c = colour, s = size
 
-plt.xlabel("Forest area (sq. km)")
-plt.ylabel("CO2 emissions from liquid fuel consumption (kt)")
+plt.xlabel("CO2 emissions (kt)")
+plt.ylabel("Cereal yield (kg per hectare)")
 plt.title("2 clusters")
+plt.show()
+
+#fitting
+# Agricultural land (sq. km)
+# Forest area (sq. km)
+# x = hdf['Agricultural land (sq. km)'].to_numpy()
+# y = hdf['Forest area (sq. km)'].to_numpy()
+
+popt, pcorr = opt.curve_fit(linfunc,
+                            hm_df['Agricultural land (sq. km)'],
+                            hm_df['Forest area (sq. km)'])
+print("Fit parameters", popt)
+
+# extract variances and calculate sigmas
+sigmas = np.sqrt(np.diag(pcorr))
+y1 = linfunc(hm_df['Agricultural land (sq. km)'], *popt)
+
+
+plt.figure(dpi=600)
+plt.title("Line Fit")
+plt.plot(hm_df['Agricultural land (sq. km)'],
+         hm_df['Forest area (sq. km)'], "o",
+         markersize=3, label="data points")
+plt.plot(hm_df['Agricultural land (sq. km)'],
+         y1, label="line fit")
+plt.xlabel('Agricultural land (sq. km)')
+plt.ylabel('Forest area (sq. km)')
+plt.legend(loc="upper left")
 plt.show()
