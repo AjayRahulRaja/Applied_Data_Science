@@ -143,7 +143,7 @@ for i in fields:
 #heat map for the world data
 plt.figure()
 ct.map_corr(hm_df)
-plt.title('Heatmap for all countries')
+plt.title('Heatmap for all countries', fontweight="bold", fontsize=20)
 plt.show()
 
 #scatter matrix
@@ -177,7 +177,7 @@ for ic in range(2, 10):
 
 
 #display clusters in the plot
-nc = 3
+nc = 2
 kmeans = cluster.KMeans(n_clusters=nc)
 kmeans.fit(df_fit)
 
@@ -201,8 +201,11 @@ plt.scatter(xc, yc, c="k", marker="d", s=80)
 #labels and titles
 plt.xlabel("CO2 emissions (kt)")
 plt.ylabel("Cereal yield (kg per hectare)")
-plt.title("3 clusters")
+plt.title("2 clusters", fontweight="bold", fontsize=20)
 plt.show()
+
+hm_df[kmeans.labels_==0].head(10)
+hm_df[kmeans.labels_==1].head(20)
 
 #line fitting
 popt, pcorr = opt.curve_fit(linfunc,
@@ -216,7 +219,7 @@ y1 = linfunc(hm_df['Agricultural land (sq. km)'], *popt)
 
 #display the line fir and data the data point
 plt.figure(dpi=600)
-plt.title("Line Fit")
+plt.title("Line Fit", fontweight="bold", fontsize=20)
 plt.plot(hm_df['Agricultural land (sq. km)'],
          hm_df['Forest area (sq. km)'], "o",
          markersize=3, label="data points")
@@ -224,5 +227,5 @@ plt.plot(hm_df['Agricultural land (sq. km)'],
          y1, label="line fit")
 plt.xlabel('Agricultural land (sq. km)')
 plt.ylabel('Forest area (sq. km)')
-plt.legend(loc="upper left")
+plt.legend(loc="lower right")
 plt.show()
