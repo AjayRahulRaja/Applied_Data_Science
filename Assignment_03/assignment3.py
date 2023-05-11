@@ -45,10 +45,36 @@ def transformDf2(df):
     :return: DataFrame with Country Names as Columns
     """
     
-    countries = df['Country Name'].unique()
-    return df
+    test_df = df.copy()
+    # extract the country names
+    countries = test_df['Country Name'].unique()
+    # keep only the indicator and values
+    new_df = test_df.loc[:, test_df.columns.isin(['Indicator Name',
+                                                  str(year)])]
 
+    f_len = len(fields) - 1
+    
+    # column headers for resulting data frame
+    col_list = ['Country'] + fields
 
+    # empty data frame for resulting data frame
+    mod_df = pd.DataFrame(columns=col_list)
+    
+    # process to create the resulting df
+    for i in range(len(countries)):
+        start = i + i*f_len # start position to slice
+        end = i + i*f_len + f_len + 1 # end pos to slice
+        temp = new_df[start:end].T # transpose the data
+        temp.reset_index(inplace=True) # reset the index
+        temp.columns = temp.iloc[0] # set the first row to column header
+        temp = temp.iloc[1:] # delete the first row
+        temp.rename(columns={'Indicator Name': 'Country'}, inplace=True)
+        temp.loc[1, 'Country'] = countries[i] # set the country name
+        mod_df = pd.concat([mod_df, temp], axis=0, ignore_index=True) # concate the current DF with existing DF
+
+    return mod_df
+
+# main code
 df = pd.read_excel("API_19_DS2_en_excel_v2_4903056.xls", header=3)
 #Discovering data using .describe()
 df.describe()
@@ -58,79 +84,40 @@ removeColumns=['Country Code', 'Indicator Code']
 
 new_df = transformDf(df, removeColumns)
 
-
-year = 2017
+year = 2016
 
 # fields to be filtered
-fields = ['Population growth (annual %)',
-      'Agricultural land (% of land area)',
+fields = ['Population, total',
+      'Agricultural land (sq. km)',
       'Arable land (% of land area)',
-      'Forest area (% of land area)',
+      'Forest area (sq. km)',
       'Cereal yield (kg per hectare)',
       'CO2 emissions (kg per PPP $ of GDP)',
       'CO2 emissions (kt)',
-      'CO2 emissions from gaseous fuel consumption (% of total)',
-      'CO2 emissions from solid fuel consumption (% of total)',
-      'CO2 emissions from liquid fuel consumption (% of total)']
+      'CO2 emissions from gaseous fuel consumption (kt)',
+      'CO2 emissions from solid fuel consumption (kt)',
+      'CO2 emissions from liquid fuel consumption (kt)']
 
 # filter the dataframe with fields and year
 mod_df = filterFieldsAndYear(new_df, fields, year)
 
-# to copy the df
-tdf = mod_df.copy()
-# extract the country names
-countries = tdf['Country Name'].unique()
-# keep only the indicator and values
-new_df = tdf.loc[:, tdf.columns.isin(['Indicator Name', str(year)])]
+hm_df = transformDf2(mod_df)
 
-f_len = len(fields) - 1
-# i = 0
-
-col_list = ['Country'] + fields
-mod_df = pd.DataFrame(columns=col_list)
-
-
-for i in range(len(countries)):
-    start = i + i*f_len # start position to slice
-    end = i + i*f_len + f_len # end pos to slice
-    temp = new_df[start:end].T # transpose the data
-    temp.columns = temp.iloc[0] # set the first row to column header
-    temp = temp.iloc[1:] # delete the first row
-    temp.reset_index(inplace=True) # reset the index
-    temp.loc[0, 'index'] = countries[i] # set the country name
-    
-    
-    
-
-a = new_df[0:9].T
-a.reset_index(inplace=True)
-a.columns=a.iloc[0]
-c = a.iloc[1:]
-c.rename(columns={'Indicator Name': 'Country'}, inplace=True)
-c.loc[1, 'Country'] = 'UK'
-
-display(c)
-
-vertical_concat = pd.concat([mod_df, c], axis=0)
+hm_df['Population, total'] = hm_df['Population, total'].astype('float64')
+hm_df['Agricultural land (sq. km)'] = hm_df['Agricultural land (sq. km)'].astype('float64')
+hm_df['Arable land (% of land area)'] = hm_df['Arable land (% of land area)'].astype('float64')
+hm_df['Forest area (sq. km)'] = hm_df['Forest area (sq. km)'].astype('float64')
+hm_df['Cereal yield (kg per hectare)'] = hm_df['Cereal yield (kg per hectare)'].astype('float64')
+hm_df['CO2 emissions (kg per PPP $ of GDP)'] = hm_df['CO2 emissions (kg per PPP $ of GDP)'].astype('float64')
+hm_df['CO2 emissions (kt)'] = hm_df['CO2 emissions (kt)'].astype('float64')
+hm_df['CO2 emissions from gaseous fuel consumption (kt)'] = hm_df['CO2 emissions from gaseous fuel consumption (kt)'].astype('float64')
+hm_df['CO2 emissions from solid fuel consumption (kt)'] = hm_df['CO2 emissions from solid fuel consumption (kt)'].astype('float64')
+hm_df['CO2 emissions from liquid fuel consumption (kt)'] = hm_df['CO2 emissions from liquid fuel consumption (kt)'].astype('float64')
 
 
 
-
-
-
-# b = c.to_dict('r')
-# d = b[0]
-# d.pop('Indicator Name')
-# e = {'Country':'dummy'}
-# f = e | d
-# g = 
-# mod_df = (f, ignore_index=True)
-
-b = new_df[10:19].T
-    
-
-
-
-
-
-
+# heat map for the world data
+plt.figure()
+ct.map_corr(hm_df)
+plt.title('Heatmap')
+plt.show()
