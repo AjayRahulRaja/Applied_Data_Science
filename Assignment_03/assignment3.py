@@ -115,7 +115,6 @@ hm_df['CO2 emissions from solid fuel consumption (kt)'] = hm_df['CO2 emissions f
 hm_df['CO2 emissions from liquid fuel consumption (kt)'] = hm_df['CO2 emissions from liquid fuel consumption (kt)'].astype('float64')
 
 
-
 # heat map for the world data
 plt.figure()
 ct.map_corr(hm_df)
@@ -126,4 +125,57 @@ plt.show()
 plt.figure(dpi=600)
 pd.plotting.scatter_matrix(hm_df, figsize=(9.0, 9.0))
 plt.tight_layout()    # helps to avoid overlap of labels
+plt.show()
+
+
+###########finding n clusters
+# extract columns for fitting. 
+df_fit = hm_df[['Forest area (sq. km)',
+                'CO2 emissions from liquid fuel consumption (kt)']].copy()
+
+# normalise dataframe and inspect result
+# normalisation is done only on the extract columns. .copy() prevents
+# changes in df_fit to affect df_fish. This make the plots with the 
+# original measurements
+df_fit, df_min, df_max = ct.scaler(df_fit)
+print(df_fit.describe())
+print()
+
+print("n   score")
+# loop over trial numbers of clusters calculating the silhouette
+for ic in range(2, 15):
+    # set up kmeans and fit
+    kmeans = cluster.KMeans(n_clusters=ic)
+    kmeans.fit(df_fit)     
+
+    # extract labels and calculate silhoutte score
+    labels = kmeans.labels_
+    print (ic, skmet.silhouette_score(df_fit, labels))
+
+
+######display clsuters
+nc = 2
+kmeans = cluster.KMeans(n_clusters=nc)
+kmeans.fit(df_fit)     
+
+# extract labels and cluster centres
+labels = kmeans.labels_
+cen = kmeans.cluster_centers_
+
+plt.figure(figsize=(6.0, 6.0), dpi=600)
+# scatter plot with colours selected using the cluster numbers
+plt.scatter(df_fit["Forest area (sq. km)"],
+            df_fit["CO2 emissions from liquid fuel consumption (kt)"],
+            c=labels, cmap="tab10")
+# colour map Accent selected to increase contrast between colours
+
+# show cluster centres
+xc = cen[:,0]
+yc = cen[:,1]
+plt.scatter(xc, yc, c="k", marker="d", s=80)
+# c = colour, s = size
+
+plt.xlabel("Forest area (sq. km)")
+plt.ylabel("CO2 emissions from liquid fuel consumption (kt)")
+plt.title("2 clusters")
 plt.show()
