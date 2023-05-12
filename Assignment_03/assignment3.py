@@ -104,7 +104,10 @@ def linfunc(x, a, b):
 
 #main code
 #read data from the excel
-df = pd.read_excel("API_19_DS2_en_excel_v2_4903056.xls", header=3)
+#dataset 01
+url = "https://raw.githubusercontent.com/AjayRahulRaja/Applied_Data_Science/main/Assignment_03/API_19_DS2_en_csv_v2_4902199.csv"
+df = pd.read_csv(url, skiprows = 4)
+
 #discovering data using .describe()
 df.describe()
 #unwanted columns to be removed
